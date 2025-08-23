@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
+
+   <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      tools:context="ui.ConfiguracioFragment">
+
+      <TextView
+         android:id="@+id/titol_configuracio"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="8dp"
+         android:gravity="center"
+         android:textSize="22sp"
+         android:text="@string/titol"
+         android:textStyle="bold"
+         app:layout_constraintTop_toTopOf="parent" />
+
+      <LinearLayout
+         android:id="@+id/formIdioma"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+         android:orientation="horizontal"
+         android:layout_marginBottom="100dp"
+         android:layout_alignParentBottom="true" >
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="seleccio_idioma"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+         <Spinner
+            android:id="@+id/selectorIdioma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
+      </LinearLayout>
+
+      <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center|bottom"
+         android:orientation="horizontal"
+         android:layout_marginBottom="20dp"
+         android:layout_alignParentBottom="true" >
+
+         <Button
+            android:id="@+id/boto_desar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="desar"
+            app:layout_constraintLeft_toLeftOf="parent" />
+      </LinearLayout>
+
+   </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

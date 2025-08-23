@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:id="@+id/modul_navegacio"
+   app:startDestination="@+id/PortadaFragment">
+
+   <fragment
+      android:id="@+id/PortadaFragment"
+      android:name="cat.tron.dictador.ui.PortadaFragment"
+      android:label="@string/blanc"
+      tools:layout="@layout/fragment_portada" >
+      <action
+         android:id="@+id/action_PortadaFragment_to_DictatFragment"
+         app:destination="@id/DictatFragment" />
+      <action
+         android:id="@+id/action_PortadaFragment_to_ConfiguracioFragment"
+         app:destination="@id/ConfiguracioFragment" />
+   </fragment>
+
+   <fragment
+      android:id="@+id/ConfiguracioFragment"
+      android:name="cat.tron.dictador.ui.ConfiguracioFragment"
+      android:label="@string/blanc"
+      tools:layout="@layout/fragment_configuracio" >
+      <action
+         android:id="@+id/action_ConfiguracioFragment_to_DictatFragment"
+         app:destination="@id/DictatFragment" />
+   </fragment>
+
+   <fragment
+      android:id="@+id/DictatFragment"
+      android:name="cat.tron.dictador.ui.DictatFragment"
+      android:label="@string/titol"
+      tools:layout="@layout/fragment_dictat">
+      <action
+         android:id="@+id/action_DictatFragment_to_ConfiguracioFragment"
+         app:destination="@id/ConfiguracioFragment" />
+   </fragment>
+
+</navigation>

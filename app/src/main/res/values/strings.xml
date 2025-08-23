@@ -1,0 +1,15 @@
+<resources>
+   <string name="app_name">Dictador</string>
+   <string name="titol">Dictador</string>
+   <string name="blanc" translatable="false"> </string>
+   <string name="microfon">microfon</string>
+
+   <string name="idioma_no_soportat">TTS: Idioma no soportat</string>
+   <string name="error_inici_TTS">TTS: Inicialització fallida</string>
+
+   <string name="inici_dictat">Ja pots començar</string>
+   <string name="escoltant">escoltant …</string>
+   <string name="error_audio">Error d\'àudio</string>
+   <string name="error_no_escolto_res">No he sentit cap veu</string>
+   <string name="error_desconegut" translatable="false">Error: %d</string>
+</resources>

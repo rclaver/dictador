@@ -1,58 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
    xmlns:tools="http://schemas.android.com/tools"
    android:layout_width="match_parent"
-   android:layout_height="match_parent"
-   android:orientation="vertical"
-   tools:context="ui.PortadaFragment">
+   android:layout_height="match_parent">
 
-   <TextView
-      android:id="@+id/titol"
+   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:gravity="center"
-      android:textSize="22sp"
-      android:text="@string/titol"
-      android:textStyle="bold" />
-
-   <ScrollView
-      android:id="@+id/text_scroll"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:orientation="vertical"
-      android:layout_marginTop="30dp" >
+      tools:context="ui.PortadaFragment">
+
       <TextView
-         android:id="@+id/text"
+         android:id="@+id/titol"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:layout_marginStart="8dp"
-         android:layout_marginEnd="8dp"
-         android:lines="24"
-         android:text="@string/blanc"
-         android:textSize="14sp"
-         android:visibility="visible" />
-   </ScrollView>
+         android:layout_marginTop="8dp"
+         android:gravity="center"
+         android:textSize="22sp"
+         android:text="@string/titol"
+         android:textStyle="bold" />
 
-   <ImageView
-      android:id="@+id/img_microfon"
-      android:layout_width="80dp"
-      android:layout_height="90dp"
-      android:layout_gravity="center"
-      android:layout_marginTop="30dp"
-      android:clickable="true"
-      android:contentDescription="@string/microfon"
-      android:focusable="true"
-      android:src="@android:drawable/presence_audio_away" />
+      <ScrollView
+         android:id="@+id/text_scroll"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:layout_marginTop="30dp" >
+         <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:lines="24"
+            android:text="@string/blanc"
+            android:textSize="14sp"
+            android:visibility="visible" />
+      </ScrollView>
 
-   <TextView
-      android:id="@+id/notaVersio"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="10dp"
-      android:textSize="14sp"
-      android:text="@string/blanc"
-      android:lines="4" />
+      <ImageView
+         android:id="@+id/img_microfon"
+         android:layout_width="80dp"
+         android:layout_height="90dp"
+         android:layout_gravity="center"
+         android:layout_marginTop="30dp"
+         android:clickable="true"
+         android:contentDescription="@string/microfon"
+         android:focusable="true"
+         android:src="@android:drawable/presence_audio_away" />
 
-</LinearLayout>
+      <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:paddingLeft="4dp"
+         android:paddingRight="4dp" >
+
+         <TextView
+            android:id="@+id/notaVersio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="14sp"
+            android:text="@string/blanc"
+            android:lines="4" />
+
+         <LinearLayout
+            android:id="@+id/layoutIdioma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:visibility="invisible" >
+            <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/titol_seleccio_idioma"
+               android:textSize="16sp"
+               android:textStyle="bold" />
+
+            <RadioGroup
+               android:id="@+id/radioGrupIdioma"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="8dp"
+               android:layout_weight="1" >
+
+               <RadioButton
+                  android:id="@+id/rbIdiomaCat"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:textSize="13sp"
+                  android:text="@string/rb_idioma_catala" />
+               <RadioButton
+                  android:id="@+id/rbIdiomaCas"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:textSize="13sp"
+                  android:text="@string/rb_idioma_castellano" />
+            </RadioGroup>
+
+         </LinearLayout>
+
+      </RelativeLayout>
+
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

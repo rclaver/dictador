@@ -49,7 +49,7 @@ object GestorDeVeu {
       recognizer.setRecognitionListener(object : RecognitionListener {
          override fun onReadyForSpeech(params: Bundle?) {
             onPreparat() // L'usuari pot començar a parlar
-            handler.postDelayed(cancelRunnable, tempsMaxim) // inicia el compte enrere
+            //handler.postDelayed(cancelRunnable, tempsMaxim) // inicia el compte enrere
          }
          override fun onResults(results: Bundle?) {
             handler.removeCallbacks(cancelRunnable)
@@ -81,21 +81,17 @@ object GestorDeVeu {
       recognizer.startListening(intent)
    }
 
-   suspend fun preparaReconeixementDeVeu(context: Context, text: String, frgDictat: FragmentDictatBinding): String = suspendCancellableCoroutine {
+   suspend fun preparaReconeixementDeVeu(context: Context, frgDictat: FragmentDictatBinding): String = suspendCancellableCoroutine {
       cont ->
       iniciaReconeixement(
          context,
-         calculaTemps(text),
-         onPreparat = {frgDictat.narracio.text = context.resources.getString(R.string.escoltant)},
+         300000L,
+         onPreparat = {frgDictat.notes.text = context.resources.getString(R.string.escoltant)},
          onParlant = {frgDictat.error.text = ""},
-         onFiDeParla = {frgDictat.narracio.text = ""},
+         onFiDeParla = {frgDictat.notes.text = ""},
          onResultat = { cont.resume(it) { cause, _, _ -> } },
          onError = { cont.resume("") { cause, _, _ -> } }
       )
-   }
-
-   private fun calculaTemps(text: String): Long {
-      return  (text.length * 100).toLong()
    }
 
 }

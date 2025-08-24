@@ -14,19 +14,6 @@
       <action
          android:id="@+id/action_PortadaFragment_to_DictatFragment"
          app:destination="@id/DictatFragment" />
-      <action
-         android:id="@+id/action_PortadaFragment_to_ConfiguracioFragment"
-         app:destination="@id/ConfiguracioFragment" />
-   </fragment>
-
-   <fragment
-      android:id="@+id/ConfiguracioFragment"
-      android:name="cat.tron.dictador.ui.ConfiguracioFragment"
-      android:label="@string/blanc"
-      tools:layout="@layout/fragment_configuracio" >
-      <action
-         android:id="@+id/action_ConfiguracioFragment_to_DictatFragment"
-         app:destination="@id/DictatFragment" />
    </fragment>
 
    <fragment
@@ -35,8 +22,8 @@
       android:label="@string/titol"
       tools:layout="@layout/fragment_dictat">
       <action
-         android:id="@+id/action_DictatFragment_to_ConfiguracioFragment"
-         app:destination="@id/ConfiguracioFragment" />
+         android:id="@+id/action_DictatFragment_to_PortadaFragment"
+         app:destination="@id/PortadaFragment" />
    </fragment>
 
 </navigation>

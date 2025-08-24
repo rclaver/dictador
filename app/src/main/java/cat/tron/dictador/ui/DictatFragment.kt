@@ -19,7 +19,9 @@ class DictatFragment : Fragment() {
    private lateinit var activitat: Activitat
    private var estatIniciat: String? = null
 
-   lateinit var escenaActual: TextView
+   lateinit var notes: TextView
+   lateinit var lectura: TextView
+   lateinit var error: TextView
    lateinit var btnInici: ImageView
    lateinit var btnPausa: ImageView
    lateinit var btnStop: ImageView
@@ -33,7 +35,7 @@ class DictatFragment : Fragment() {
       super.onViewCreated(view, savedInstanceState)
       initProperties()
 
-      escenaActual.text = getString(R.string.inici_dictat)
+      notes.text = getString(R.string.inici_dictat)
 
       btnInici.setOnClickListener {
          val estat = estatIniciat ?: "primer_inici"
@@ -56,14 +58,16 @@ class DictatFragment : Fragment() {
          btnInici.visibility= View.VISIBLE
          btnPausa.visibility= View.INVISIBLE
          activitat.canviEstat("stop")
-         findNavController().navigate(R.id.action_DictatFragment_to_ConfiguracioFragment)
+         findNavController().navigate(R.id.action_DictatFragment_to_PortadaFragment)
       }
 
    }
 
    private fun initProperties() {
       activitat = Activitat()
-      escenaActual = binding.lectura
+      notes = binding.notes
+      lectura = binding.lectura
+      error = binding.error
       btnInici = binding.inici
       btnPausa = binding.pausa
       btnStop = binding.stop

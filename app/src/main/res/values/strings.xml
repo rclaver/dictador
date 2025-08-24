@@ -12,4 +12,7 @@
    <string name="error_audio">Error d\'àudio</string>
    <string name="error_no_escolto_res">No he sentit cap veu</string>
    <string name="error_desconegut" translatable="false">Error: %d</string>
+   <string name="rb_idioma_catala">Català</string>
+   <string name="rb_idioma_castellano">Castellano</string>
+   <string name="titol_seleccio_idioma">Idioma</string>
 </resources>

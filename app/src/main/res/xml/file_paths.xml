@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+   <external-path name="external_files" path="."/>
+   <external-downloads-path name="downloads" path="Dictador/" />
+   <external-public-path name="external_public" path="Download/Dictador/" />
+</paths>

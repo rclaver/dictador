@@ -9,8 +9,10 @@ android {
 
    defaultConfig {
       applicationId = "cat.tron.dictador"
-      minSdk = 28
+      minSdk = 24
       targetSdk = 36
+      //noinspection ExpiredTargetSdkVersion
+      targetSdk = 28  // sin problema si no se publica en Google Play // 35->Android-15 # 28->Android-9 # 22->Android-5.1
       versionCode = 1
       versionName = "1.0"
       testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -1,15 +1,14 @@
 package cat.tron.dictador.activitat
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import cat.tron.dictador.databinding.FragmentDictatBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Locale
@@ -19,13 +18,11 @@ object Utilitats {
    const val REQUEST_CODE_OPEN_DIRECTORY = 101
    private const val STORAGE_PERMISSION_CODE = 100
    private const val ARXIU = "pensaments"
-   @SuppressLint("StaticFieldLeak")
-   private lateinit var frgDictat: FragmentDictatBinding
 
    /*
    Escriu el text dictat a un arxiu de emmagatzematge
    */
-   fun desaArxiu(fileName: String, dades: String, context: Context): Boolean {
+   fun desaArxiu(fileName: String, dades: String, context: Context, error: TextView? = null): Boolean {
       val nomArxiu = fileName ?: ARXIU
       return try {
          val directori = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -41,7 +38,7 @@ object Utilitats {
          true
       }catch (e: Exception) {
          e.printStackTrace()
-         frgDictat.error.text = e.message
+         error?.text = e.message
          false
       }
    }

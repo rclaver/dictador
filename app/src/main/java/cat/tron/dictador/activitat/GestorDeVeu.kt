@@ -49,7 +49,7 @@ object GestorDeVeu {
       recognizer.setRecognitionListener(object : RecognitionListener {
          override fun onReadyForSpeech(params: Bundle?) {
             onPreparat() // L'usuari pot començar a parlar
-            //handler.postDelayed(cancelRunnable, tempsMaxim) // inicia el compte enrere
+            handler.postDelayed(cancelRunnable, tempsMaxim) // inicia el compte enrere
          }
          override fun onResults(results: Bundle?) {
             handler.removeCallbacks(cancelRunnable)
@@ -86,9 +86,9 @@ object GestorDeVeu {
       iniciaReconeixement(
          context,
          300000L,
-         onPreparat = {frgDictat.notes.text = context.resources.getString(R.string.escoltant)},
-         onParlant = {frgDictat.error.text = ""},
-         onFiDeParla = {frgDictat.notes.text = ""},
+         onPreparat = { frgDictat.notes.text = context.resources.getString(R.string.escoltant) },
+         onParlant = { frgDictat.error.text = "" },
+         onFiDeParla = { frgDictat.notes.text = "" },
          onResultat = { cont.resume(it) { cause, _, _ -> } },
          onError = { cont.resume("") { cause, _, _ -> } }
       )

@@ -35,7 +35,10 @@ class Activitat : AppCompatActivity() {
          }
          nouText = processaEscena()
       }
-      Utilitats.desaArxiu(titol, nouText, ctxDictat)
+      if (nouText.isNotEmpty()) {
+         val errorTextView = frgDictat.error
+         Utilitats.desaArxiu(titol, nouText, ctxDictat, errorTextView)
+      }
    }
 
    private suspend fun processaEscena(): String {
@@ -44,7 +47,7 @@ class Activitat : AppCompatActivity() {
          withContext(Dispatchers.Main) {
             frgDictat.lectura.text = nouText
          }
-         delay(50) //espera per donar temps a l'usuari (i a la UI)
+         delay(50) //espera per donar temps a la UI
          while (estat == "pausa") {delay(50) } //esperar mentre estigui en pausa
       }
       return nouText
@@ -52,7 +55,7 @@ class Activitat : AppCompatActivity() {
 
    private suspend fun escoltaActor(): String {
       val text = GestorDeVeu.preparaReconeixementDeVeu(ctxDictat, frgDictat)
-      if (nouText.isNotEmpty()) {
+      if (text.isNotEmpty()) {
          mostraSentencia(text)
       } else {
          mostraError(cR.getString(R.string.error_no_escolto_res))

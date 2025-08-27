@@ -17,7 +17,6 @@ class Activitat : AppCompatActivity() {
    lateinit var cR: Resources
 
    private var titol = "pensaments"
-   var nouText = ""
    private var estat = "inici"
 
    fun canviEstat(stat: String) {
@@ -28,29 +27,33 @@ class Activitat : AppCompatActivity() {
    }
 
    fun iniciDictat() {
-      GestorDeVeu.objTTS.inici()
+      //GestorDeVeu.objTTS.inici()
+      var nouText = ""
       CoroutineScope(Dispatchers.Main).launch {
          withContext(Dispatchers.Main) {
-            frgDictat.lectura.text = ""
+            frgDictat.lectura.text = nouText
          }
-         nouText = processaEscena()
+         nouText += processaEscena()
       }
       if (nouText.isNotEmpty()) {
          val errorTextView = frgDictat.error
          Utilitats.desaArxiu(titol, nouText, ctxDictat, errorTextView)
+      }else {
+         frgDictat.error.text = cR.getString(R.string.noutext_buit)
       }
    }
 
    private suspend fun processaEscena(): String {
+      var text = ""
       while (estat != "stop") {
-         nouText = escoltaActor()
+         text = escoltaActor()
          withContext(Dispatchers.Main) {
-            frgDictat.lectura.text = nouText
+            frgDictat.lectura.text = text
          }
          delay(50) //espera per donar temps a la UI
          while (estat == "pausa") {delay(50) } //esperar mentre estigui en pausa
       }
-      return nouText
+      return text
    }
 
    private suspend fun escoltaActor(): String {
@@ -60,7 +63,7 @@ class Activitat : AppCompatActivity() {
       } else {
          mostraError(cR.getString(R.string.error_no_escolto_res))
       }
-      delay(100)
+      delay(1000)
       return text
    }
 

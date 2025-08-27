@@ -11,6 +11,7 @@
    <string name="escoltant">escoltant …</string>
    <string name="error_audio">Error d\'àudio</string>
    <string name="error_no_escolto_res">No he sentit cap veu</string>
+   <string name="noutext_buit">No hi ha res per desar</string>
    <string name="error_desconegut" translatable="false">Error: %d</string>
    <string name="rb_idioma_catala">Català</string>
    <string name="rb_idioma_castellano">Castellano</string>

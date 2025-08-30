@@ -61,7 +61,7 @@ object GestorDeVeu {
             handler.removeCallbacks(cancelRunnable)
             val missatge = when (error) {
                SpeechRecognizer.ERROR_AUDIO -> cR.getString(R.string.error_audio)
-               SpeechRecognizer.ERROR_NO_MATCH -> cR.getString(R.string.error_no_escolto_res)
+               //SpeechRecognizer.ERROR_NO_MATCH -> cR.getString(R.string.error_no_escolto_res)
                else -> String.format(cR.getString(R.string.error_desconegut), error)
             }
             onError(missatge)
@@ -85,7 +85,7 @@ object GestorDeVeu {
       cont ->
       iniciaReconeixement(
          context,
-         300000L,
+         10000L,
          onPreparat = { frgDictat.notes.text = context.resources.getString(R.string.escoltant) },
          onParlant = { frgDictat.error.text = "" },
          onFiDeParla = { frgDictat.notes.text = "" },

@@ -60,7 +60,7 @@
       android:layout_marginStart="0dp"
       android:minHeight="48dp"
       android:paddingHorizontal="26dp"
-      android:src="@mipmap/microfon"
+      android:src="@mipmap/playmicro"
       android:visibility="visible"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
@@ -88,7 +88,7 @@
       android:focusable="true"
       android:minHeight="48dp"
       android:paddingHorizontal="26dp"
-      android:src="@android:drawable/sym_contact_card"
+      android:src="@mipmap/desar"
       app:layout_constraintRight_toLeftOf="@id/inici"
       app:layout_constraintTop_toTopOf="@id/inici" />
 

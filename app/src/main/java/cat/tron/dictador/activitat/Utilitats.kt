@@ -22,7 +22,7 @@ object Utilitats {
    /*
    Escriu el text dictat a un arxiu de emmagatzematge
    */
-   fun desaArxiu(fileName: String, dades: String, context: Context, error: TextView? = null): Boolean {
+   suspend fun desaArxiu(fileName: String, dades: String, context: Context, error: TextView? = null): Boolean {
       val nomArxiu = fileName ?: ARXIU
       return try {
          val directori = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)

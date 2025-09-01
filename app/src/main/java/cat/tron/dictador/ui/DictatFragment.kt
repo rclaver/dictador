@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import cat.tron.dictador.R
 import cat.tron.dictador.activitat.Activitat
+import cat.tron.dictador.activitat.Utilitats
 import cat.tron.dictador.databinding.FragmentDictatBinding
 
 class DictatFragment : Fragment() {
@@ -24,6 +25,7 @@ class DictatFragment : Fragment() {
    lateinit var error: TextView
    lateinit var btnInici: ImageView
    lateinit var btnPausa: ImageView
+   lateinit var btnDesar: ImageView
    lateinit var btnStop: ImageView
 
    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -55,6 +57,12 @@ class DictatFragment : Fragment() {
       }
 
       btnStop.setOnClickListener {
+         btnInici.visibility = View.VISIBLE
+         btnPausa.visibility = View.INVISIBLE
+         activitat.canviEstat("desar")
+      }
+
+      btnStop.setOnClickListener {
          btnInici.visibility= View.VISIBLE
          btnPausa.visibility= View.INVISIBLE
          activitat.canviEstat("stop")
@@ -70,6 +78,7 @@ class DictatFragment : Fragment() {
       error = binding.error
       btnInici = binding.inici
       btnPausa = binding.pausa
+      btnDesar = binding.desar
       btnStop = binding.stop
 
       btnInici.visibility= View.VISIBLE

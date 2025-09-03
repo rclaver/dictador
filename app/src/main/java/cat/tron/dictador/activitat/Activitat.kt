@@ -40,12 +40,15 @@ class Activitat : AppCompatActivity() {
    private suspend fun processaEscena() {
       while (estat != "stop") {
          nouText += escoltaActor() + "\n"
-         withContext(Dispatchers.Main) {
+         mostraTranscripcio(nouText)
+         /*withContext(Dispatchers.Main) {
             frgDictat.lectura.text = nouText
-         }
+         }*/
          delay(100) //espera per donar temps a la UI
          if (estat == "desar") {
-            desaArxiu()
+            withContext(Dispatchers.Main) {
+               desaArxiu()
+            }
          }
          while (estat == "pausa") {delay(50) } //esperar mentre estigui en pausa
       }
@@ -54,7 +57,7 @@ class Activitat : AppCompatActivity() {
    private suspend fun escoltaActor(): String {
       val text = GestorDeVeu.preparaReconeixementDeVeu(ctxDictat, frgDictat)
       if (text.isNotEmpty()) {
-         mostraSentencia(text)
+         //mostraTranscripcio(text)
       } else {
          mostraError(cR.getString(R.string.error_no_escolto_res))
       }
@@ -67,15 +70,19 @@ class Activitat : AppCompatActivity() {
       if (ret) {
          val errorTextView = frgDictat.error
          if (Utilitats.desaArxiu(titol, nouText, ctxDictat, errorTextView)) {
-            frgDictat.notes.text = cR.getString(R.string.text_desat)
+            withContext(Dispatchers.Main) {
+               frgDictat.notes.text = cR.getString(R.string.text_desat)
+            }
+            delay(5000)
          }
-      }else {
-         frgDictat.error.text = cR.getString(R.string.noutext_buit)
+      } else {
+         mostraError(cR.getString(R.string.noutext_buit))
+         delay(5000)
       }
       return ret
    }
 
-   private suspend fun mostraSentencia(text: String) {
+   private suspend fun mostraTranscripcio(text: String) {
       withContext(Dispatchers.Main) {
          frgDictat.lectura.text = text
          delay(1000)

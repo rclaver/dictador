@@ -35,20 +35,27 @@
       android:gravity="bottom|left"
       app:layout_constraintTop_toBottomOf="@id/titol_dictat" />
 
-   <TextView
-      android:id="@+id/lectura"
+   <ScrollView
+      android:id="@+id/text_scroll"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="10dp"
-      android:layout_marginEnd="8dp"
-      android:isScrollContainer="true"
-      android:padding="3dp"
-      android:background="@drawable/rounded_corner"
-      android:textSize="16sp"
-      android:text="@string/blanc"
-      android:lines="24"
-      app:layout_constraintTop_toBottomOf="@id/notes" />
+      android:orientation="vertical"
+      app:layout_constraintTop_toBottomOf="@id/notes" >
+      <TextView
+         android:id="@+id/lectura"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="8dp"
+         android:layout_marginTop="10dp"
+         android:layout_marginEnd="8dp"
+         android:isScrollContainer="true"
+         android:padding="3dp"
+         android:background="@drawable/rounded_corner"
+         android:textSize="16sp"
+         android:text="@string/blanc"
+         android:lines="30"
+         app:layout_constraintTop_toBottomOf="@id/notes" />
+   </ScrollView>
 
    <ImageView
       android:id="@+id/inici"
@@ -64,7 +71,7 @@
       android:visibility="visible"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/lectura" />
+      app:layout_constraintTop_toBottomOf="@id/text_scroll" />
 
    <ImageView
       android:id="@+id/pausa"
@@ -115,7 +122,7 @@
       android:text="@string/blanc"
       android:visibility="visible"
       android:textColor="@color/vermell"
-      android:lines="8"
+      android:lines="4"
       app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

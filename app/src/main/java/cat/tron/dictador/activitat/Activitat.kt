@@ -33,26 +33,28 @@ class Activitat : AppCompatActivity() {
          //withContext(Dispatchers.Main) { frgDictat.lectura.text = nouText }
          processaEscena()
          desaArxiu()
-         withContext(Dispatchers.Main) {
+         /*withContext(Dispatchers.Main) {
             frgDictat.notes.text = cR.getString(R.string.text_desat)
             delay(10000)
-         }
+         }*/
       }
    }
 
    private suspend fun processaEscena() {
       while (estat != "stop") {
-         nouText += escoltaActor() + "\n"
-         mostraTranscripcio(nouText)
-         //withContext(Dispatchers.Main) { frgDictat.lectura.text = nouText }
-         delay(100) //espera per donar temps a la UI
          if (estat == "desar") {
-            if (desaArxiu()) {
+            desaArxiu()
+            /*if (desaArxiu()) {
                withContext(Dispatchers.Main) {
                   frgDictat.notes.text = cR.getString(R.string.text_desat)
                   delay(5000)
                }
-            }
+            }*/
+         }else {
+            nouText += escoltaActor() + "\n"
+            mostraTranscripcio(nouText)
+            //withContext(Dispatchers.Main) { frgDictat.lectura.text = nouText }
+            delay(100) //espera per donar temps a la UI
          }
          while (estat == "pausa") {delay(50) } //esperar mentre estigui en pausa
       }
@@ -85,7 +87,7 @@ class Activitat : AppCompatActivity() {
    private suspend fun mostraTranscripcio(text: String) {
       withContext(Dispatchers.Main) {
          frgDictat.lectura.text = text
-         delay(1000)
+         delay(100)
       }
    }
 

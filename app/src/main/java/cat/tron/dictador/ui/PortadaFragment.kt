@@ -20,11 +20,11 @@ class PortadaFragment : Fragment() {
 
    private var _binding: FragmentPortadaBinding? = null
    private val binding get() = _binding!!
-   private var idioma = "ca"
+   //private var idioma = "ca"
 
    private lateinit var imatge: ImageView
-   private lateinit var layoutIdioma: LinearLayout
-   private lateinit var radioGrupIdioma: RadioGroup
+   //private lateinit var layoutIdioma: LinearLayout
+   //private lateinit var radioGrupIdioma: RadioGroup
    private lateinit var notaVersio: TextView
 
    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,22 +36,25 @@ class PortadaFragment : Fragment() {
       super.onViewCreated(view, savedInstanceState)
       initProperties()
 
+/*
       radioGrupIdioma.setOnCheckedChangeListener { group, checkedId ->
          val radioBtn: RadioButton = view.findViewById(radioGrupIdioma.checkedRadioButtonId)
          idioma = radioBtn.text.toString().substring(0, 2).lowercase()
          Utilitats.canviaIdioma(idioma, requireContext())
          findNavController().navigate(R.id.action_PortadaFragment_to_DictatFragment)
       }
+*/
 
       imatge.setOnClickListener {
          notaVersio.visibility = View.INVISIBLE
-         layoutIdioma.visibility = View.VISIBLE
+         //layoutIdioma.visibility = View.VISIBLE
+         findNavController().navigate(R.id.action_PortadaFragment_to_DictatFragment)
       }
    }
 
    private fun initProperties() {
-      layoutIdioma = binding.layoutIdioma
-      radioGrupIdioma = binding.radioGrupIdioma
+      //layoutIdioma = binding.layoutIdioma
+      //radioGrupIdioma = binding.radioGrupIdioma
       imatge = binding.imgMicrofon
       notaVersio = binding.notaVersio
       notaVersio.text = mostraVersio()

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,9 @@ class DictatFragment : Fragment() {
 
    private lateinit var activitat: Activitat
    private var estatIniciat: String? = null
+   private var idioma = "ca"
 
+   lateinit var avis: TextView
    lateinit var notes: TextView
    lateinit var lectura: TextView
    lateinit var error: TextView
@@ -27,6 +31,7 @@ class DictatFragment : Fragment() {
    lateinit var btnPausa: ImageView
    lateinit var btnDesar: ImageView
    lateinit var btnStop: ImageView
+   private lateinit var radioGrupIdioma: RadioGroup
 
    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
       _binding = FragmentDictatBinding.inflate(inflater, container, false)
@@ -37,7 +42,7 @@ class DictatFragment : Fragment() {
       super.onViewCreated(view, savedInstanceState)
       initProperties()
 
-      notes.text = getString(R.string.inici_dictat)
+      avis.text = getString(R.string.inici_dictat)
 
       btnInici.setOnClickListener {
          val estat = estatIniciat ?: "primer_inici"
@@ -56,7 +61,7 @@ class DictatFragment : Fragment() {
          activitat.canviEstat("pausa")
       }
 
-      btnStop.setOnClickListener {
+      btnDesar.setOnClickListener {
          btnInici.visibility = View.VISIBLE
          btnPausa.visibility = View.INVISIBLE
          activitat.canviEstat("desar")
@@ -66,13 +71,20 @@ class DictatFragment : Fragment() {
          btnInici.visibility= View.VISIBLE
          btnPausa.visibility= View.INVISIBLE
          activitat.canviEstat("stop")
-         findNavController().navigate(R.id.action_DictatFragment_to_PortadaFragment)
+         //findNavController().navigate(R.id.action_DictatFragment_to_PortadaFragment)
       }
 
+      radioGrupIdioma.setOnCheckedChangeListener { group, checkedId ->
+         val radioBtn: RadioButton = view.findViewById(radioGrupIdioma.checkedRadioButtonId)
+         idioma = radioBtn.text.toString().substring(0, 2).lowercase()
+         Utilitats.canviaIdioma(idioma, requireContext())
+         //findNavController().navigate(R.id.action_PortadaFragment_to_DictatFragment)
+      }
    }
 
    private fun initProperties() {
       activitat = Activitat()
+      avis = binding.avis
       notes = binding.notes
       lectura = binding.lectura
       error = binding.error
@@ -80,6 +92,7 @@ class DictatFragment : Fragment() {
       btnPausa = binding.pausa
       btnDesar = binding.desar
       btnStop = binding.stop
+      radioGrupIdioma = binding.radioGrupIdioma
 
       btnInici.visibility= View.VISIBLE
       btnPausa.visibility= View.INVISIBLE

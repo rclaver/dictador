@@ -34,7 +34,7 @@ class Activitat : AppCompatActivity() {
          processaEscena()
          desaArxiu()
          /*withContext(Dispatchers.Main) {
-            frgDictat.notes.text = cR.getString(R.string.text_desat)
+            frgDictat.avis.text = cR.getString(R.string.text_desat)
             delay(10000)
          }*/
       }
@@ -46,7 +46,7 @@ class Activitat : AppCompatActivity() {
             desaArxiu()
             /*if (desaArxiu()) {
                withContext(Dispatchers.Main) {
-                  frgDictat.notes.text = cR.getString(R.string.text_desat)
+                  frgDictat.avis.text = cR.getString(R.string.text_desat)
                   delay(5000)
                }
             }*/

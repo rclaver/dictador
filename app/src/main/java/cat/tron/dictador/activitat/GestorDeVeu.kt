@@ -85,10 +85,10 @@ object GestorDeVeu {
       cont ->
       iniciaReconeixement(
          context,
-         10000L,
-         onPreparat = { frgDictat.notes.text = context.resources.getString(R.string.escoltant) },
+         5000L,
+         onPreparat = { frgDictat.avis.text = context.resources.getString(R.string.escoltant) },
          onParlant = { frgDictat.error.text = "" },
-         onFiDeParla = { frgDictat.notes.text = "" },
+         onFiDeParla = { frgDictat.avis.text = "silenci" },
          onResultat = { cont.resume(it) { cause, _, _ -> } },
          onError = { cont.resume("") { cause, _, _ -> } }
       )

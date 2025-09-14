@@ -2,11 +2,12 @@
 .gradle/
 build/
 
-# Local configuration file (sdk path, etc)
 local.properties
-
-# Log/OS Files
+mou_apk.sh
 *.log
+gradlew
+gradlew.bat
+*.jar
 
 # Android Studio generated files and folders
 captures/
@@ -31,8 +32,3 @@ google-services.json
 
 # Android Profiling
 *.hprof
-
-#Altres
-gradlew
-gradlew.bat
-*.jar

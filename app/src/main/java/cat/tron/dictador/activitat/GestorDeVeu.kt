@@ -13,6 +13,14 @@ import cat.tron.dictador.R
 import cat.tron.dictador.databinding.FragmentDictatBinding
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Locale
+import com.google.cloud.speech.v1.RecognitionAudio
+import com.google.cloud.speech.v1.RecognitionConfig
+import com.google.cloud.speech.v1.RecognizeRequest
+import com.google.cloud.speech.v1.RecognizeResponse
+import com.google.cloud.speech.v1.SpeechClient
+import com.google.cloud.speech.v1.SpeechRecognitionAlternative
+import com.google.cloud.speech.v1.SpeechRecognitionResult
+import java.io.File
 
 object GestorDeVeu {
 
@@ -92,6 +100,33 @@ object GestorDeVeu {
          onResultat = { cont.resume(it) { cause, _, _ -> } },
          onError = { cont.resume("") { cause, _, _ -> } }
       )
+   }
+
+   fun transcribeAudioFile(filePath: String): String {
+      var transcripcio = ""
+
+      val speechClient = SpeechClient.create()
+      val audio = RecognitionAudio.newBuilder().setUri(filePath).build()
+
+      val config = RecognitionConfig.newBuilder()
+         .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+         .setLanguageCode("es-ES")
+         .setSampleRateHertz(16000)
+         .build()
+
+      val request = RecognizeRequest.newBuilder()
+         .setConfig(config)
+         .setAudio(audio)
+         .build()
+
+      val response: RecognizeResponse = speechClient.recognize(request)
+      for (result: SpeechRecognitionResult in response.resultsList) {
+         for (alternative: SpeechRecognitionAlternative in result.alternativesList) {
+            transcripcio += alternative.transcript
+         }
+      }
+      speechClient.close()
+      return transcripcio
    }
 
 }

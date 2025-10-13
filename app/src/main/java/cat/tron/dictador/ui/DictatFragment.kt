@@ -9,9 +9,8 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import cat.tron.dictador.R
-import cat.tron.dictador.activitat.Activitat
+import cat.tron.dictador.activitat.ProcesMicrofon
 import cat.tron.dictador.activitat.Utilitats
 import cat.tron.dictador.databinding.FragmentDictatBinding
 
@@ -19,7 +18,7 @@ class DictatFragment : Fragment() {
    private var _binding: FragmentDictatBinding? = null
    private val binding get() = _binding!!
 
-   private lateinit var activitat: Activitat
+   private lateinit var procesMicrofon: ProcesMicrofon
    private var estatIniciat: String? = null
    private var idioma = "ca"
 
@@ -47,30 +46,30 @@ class DictatFragment : Fragment() {
       btnInici.setOnClickListener {
          val estat = estatIniciat ?: "primer_inici"
          if (estatIniciat == null) {
-            activitat.setUp(binding, view.context.applicationContext)
+            procesMicrofon.setUp(binding, view.context.applicationContext)
          }
          estatIniciat = "inici"
          btnInici.visibility = View.INVISIBLE
          btnPausa.visibility = View.VISIBLE
-         activitat.canviEstat(estat)
+         procesMicrofon.canviEstat(estat)
       }
 
       btnPausa.setOnClickListener {
          btnInici.visibility = View.VISIBLE
          btnPausa.visibility = View.INVISIBLE
-         activitat.canviEstat("pausa")
+         procesMicrofon.canviEstat("pausa")
       }
 
       btnDesar.setOnClickListener {
          btnInici.visibility = View.VISIBLE
          btnPausa.visibility = View.INVISIBLE
-         activitat.canviEstat("desar")
+         procesMicrofon.canviEstat("desar")
       }
 
       btnStop.setOnClickListener {
          btnInici.visibility= View.VISIBLE
          btnPausa.visibility= View.INVISIBLE
-         activitat.canviEstat("stop")
+         procesMicrofon.canviEstat("stop")
          //findNavController().navigate(R.id.action_DictatFragment_to_PortadaFragment)
       }
 
@@ -83,7 +82,7 @@ class DictatFragment : Fragment() {
    }
 
    private fun initProperties() {
-      activitat = Activitat()
+      procesMicrofon = ProcesMicrofon()
       avis = binding.avis
       notes = binding.notes
       lectura = binding.lectura

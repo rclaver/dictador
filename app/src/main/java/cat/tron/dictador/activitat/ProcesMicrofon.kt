@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Activitat : AppCompatActivity() {
+class ProcesMicrofon : AppCompatActivity() {
    private lateinit var ctxDictat: Context
    private lateinit var frgDictat: FragmentDictatBinding
    lateinit var cR: Resources

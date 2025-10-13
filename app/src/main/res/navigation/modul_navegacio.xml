@@ -14,6 +14,9 @@
       <action
          android:id="@+id/action_PortadaFragment_to_DictatFragment"
          app:destination="@id/DictatFragment" />
+      <action
+         android:id="@+id/action_PortadaFragment_to_AudioFragment"
+         app:destination="@id/AudioFragment" />
    </fragment>
 
    <fragment
@@ -23,6 +26,16 @@
       tools:layout="@layout/fragment_dictat">
       <action
          android:id="@+id/action_DictatFragment_to_PortadaFragment"
+         app:destination="@id/PortadaFragment" />
+   </fragment>
+
+   <fragment
+      android:id="@+id/AudioFragment"
+      android:name="cat.tron.dictador.ui.AudioFragment"
+      android:label="@string/titol"
+      tools:layout="@layout/fragment_audio">
+      <action
+         android:id="@+id/action_AudioFragment_to_PortadaFragment"
          app:destination="@id/PortadaFragment" />
    </fragment>
 

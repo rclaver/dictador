@@ -5,10 +5,10 @@
    xmlns:app="http://schemas.android.com/apk/res-auto"
    android:layout_width="match_parent"
    android:layout_height="match_parent"
-   tools:context="ui.DictatFragment">
+   tools:context="ui.AudioFragment">
 
    <TextView
-      android:id="@+id/titol_dictat"
+      android:id="@+id/titol_audio"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
@@ -21,41 +21,14 @@
       android:gravity="center"
       app:layout_constraintTop_toTopOf="parent" />
 
-   <TextView
-      android:id="@+id/avis"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="10dp"
-      android:layout_marginEnd="8dp"
-      android:textSize="14sp"
-      android:text="@string/blanc"
-      android:visibility="visible"
-      android:lines="1"
-      android:gravity="bottom|left"
-      app:layout_constraintTop_toBottomOf="@id/titol_dictat" />
-
-   <TextView
-      android:id="@+id/notes"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginEnd="8dp"
-      android:textSize="14sp"
-      android:text="@string/blanc"
-      android:visibility="visible"
-      android:lines="1"
-      android:gravity="bottom|left"
-      app:layout_constraintTop_toBottomOf="@id/avis" />
-
    <ScrollView
       android:id="@+id/text_scroll"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      app:layout_constraintTop_toBottomOf="@id/notes" >
+      app:layout_constraintTop_toBottomOf="@id/titol_audio" >
       <TextView
-         android:id="@+id/lectura"
+         android:id="@+id/escriptura"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_marginStart="8dp"
@@ -74,31 +47,17 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:clickable="true"
-      android:contentDescription="@string/inici_dictat"
+      android:contentDescription="@string/audio"
       android:focusable="true"
       android:layout_marginTop="20dp"
       android:layout_marginStart="0dp"
       android:minHeight="48dp"
       android:paddingHorizontal="26dp"
-      android:src="@mipmap/playmicro"
+      android:src="@mipmap/audio"
       android:visibility="visible"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintTop_toBottomOf="@id/text_scroll" />
-
-   <ImageView
-      android:id="@+id/pausa"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:clickable="true"
-      android:focusable="true"
-      android:layout_marginStart="70dp"
-      android:minHeight="48dp"
-      android:paddingHorizontal="26dp"
-      android:src="@mipmap/pausa"
-      android:visibility="invisible"
-      app:layout_constraintEnd_toEndOf="@id/inici"
-      app:layout_constraintTop_toTopOf="@id/inici" />
 
    <ImageView
       android:id="@+id/desar"
@@ -114,7 +73,7 @@
       app:layout_constraintTop_toTopOf="@id/inici" />
 
    <ImageView
-      android:id="@+id/stop"
+      android:id="@+id/sortir"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:clickable="true"
@@ -122,7 +81,7 @@
       android:focusable="true"
       android:minHeight="48dp"
       android:paddingHorizontal="26dp"
-      android:src="@mipmap/stop"
+      android:src="@mipmap/sortir"
       app:layout_constraintLeft_toRightOf="@id/inici"
       app:layout_constraintTop_toTopOf="@id/inici" />
 

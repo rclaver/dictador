@@ -3,6 +3,9 @@
    <string name="titol">Dictador</string>
    <string name="blanc" translatable="false"> </string>
    <string name="microfon">microfon</string>
+   <string name="audio">audio</string>
+   <string name="desar">desar</string>
+   <string name="sortir">sortir</string>
 
    <string name="idioma_no_soportat">TTS: Idioma no soportat</string>
    <string name="error_inici_TTS">TTS: Inicialització fallida</string>

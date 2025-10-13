@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import cat.tron.dictador.R
-import cat.tron.dictador.activitat.Utilitats
 import cat.tron.dictador.databinding.FragmentPortadaBinding
 
 class PortadaFragment : Fragment() {
@@ -22,8 +18,8 @@ class PortadaFragment : Fragment() {
    private val binding get() = _binding!!
    //private var idioma = "ca"
 
-   private lateinit var imatge: ImageView
-   //private lateinit var layoutIdioma: LinearLayout
+   private lateinit var microfon: ImageView
+   private lateinit var audio: ImageView
    //private lateinit var radioGrupIdioma: RadioGroup
    private lateinit var notaVersio: TextView
 
@@ -35,7 +31,6 @@ class PortadaFragment : Fragment() {
    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
       super.onViewCreated(view, savedInstanceState)
       initProperties()
-
 /*
       radioGrupIdioma.setOnCheckedChangeListener { group, checkedId ->
          val radioBtn: RadioButton = view.findViewById(radioGrupIdioma.checkedRadioButtonId)
@@ -44,18 +39,24 @@ class PortadaFragment : Fragment() {
          findNavController().navigate(R.id.action_PortadaFragment_to_DictatFragment)
       }
 */
-
-      imatge.setOnClickListener {
+      microfon.setOnClickListener {
          notaVersio.visibility = View.INVISIBLE
-         //layoutIdioma.visibility = View.VISIBLE
+         //radioGrupIdioma.visibility = View.VISIBLE
          findNavController().navigate(R.id.action_PortadaFragment_to_DictatFragment)
       }
+
+      audio.setOnClickListener {
+         notaVersio.visibility = View.INVISIBLE
+         //radioGrupIdioma.visibility = View.VISIBLE
+         findNavController().navigate(R.id.action_PortadaFragment_to_AudioFragment)
+      }
+
    }
 
    private fun initProperties() {
-      //layoutIdioma = binding.layoutIdioma
       //radioGrupIdioma = binding.radioGrupIdioma
-      imatge = binding.imgMicrofon
+      microfon = binding.imgMicrofon
+      audio = binding.imgAudio
       notaVersio = binding.notaVersio
       notaVersio.text = mostraVersio()
    }

@@ -21,7 +21,6 @@ class ProcesAudio : AppCompatActivity() {
    private var nouText = ""
 
    fun iniciTranscripcio() {
-      //GestorDeVeu.objTTS.inici()
       val filepath = obreArxiu()
       CoroutineScope(Dispatchers.Main).launch {
          processaAudio(filepath)
@@ -43,16 +42,11 @@ class ProcesAudio : AppCompatActivity() {
    suspend fun desaArxiu(): Boolean {
       val ret = nouText.isNotEmpty()
       if (ret) {
-         val errorTextView = frgAudio.error
-         if (Utilitats.desaArxiu(titol, nouText, ctxAudio, errorTextView)) {
-            withContext(Dispatchers.Main) {
-               frgAudio.error.text = cR.getString(R.string.text_desat)
-            }
-            delay(5000)
+         if (Utilitats.desaArxiu(titol, nouText, ctxAudio, frgAudio.error)) {
+            frgAudio.error.text = cR.getString(R.string.text_desat)
          }
       } else {
          mostraError(cR.getString(R.string.noutext_buit))
-         delay(5000)
       }
       return ret
    }

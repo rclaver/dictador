@@ -30,18 +30,17 @@ object Utilitats {
          files?.forEach { file ->
             if (file.isFile) {
                filesList.add(file)
-               print("Nombre: ${file.name}, Ruta: ${file.absolutePath}")
+               //print("Nombre: ${file.name}, Ruta: ${file.absolutePath}")
             }
          }
       }
-
       return filesList
    }
 
    /*
    Escriu el text dictat a un arxiu de emmagatzematge
    */
-   suspend fun desaArxiu(fileName: String, dades: String, context: Context, error: TextView? = null): Boolean {
+   suspend fun desaArxiu(fileName: String, dades: String, context: Context, errorView: TextView): Boolean {
       val nomArxiu = fileName.ifEmpty { ARXIU }
       return try {
          val directori = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -57,7 +56,7 @@ object Utilitats {
          true
       }catch (e: Exception) {
          e.printStackTrace()
-         error?.text = e.message
+         errorView.text = e.message
          false
       }
    }

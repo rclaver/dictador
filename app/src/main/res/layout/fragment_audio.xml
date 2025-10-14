@@ -39,7 +39,7 @@
          android:background="@drawable/rounded_corner"
          android:textSize="16sp"
          android:text="@string/blanc"
-         android:lines="28" />
+         android:lines="26" />
    </ScrollView>
 
    <ImageView
@@ -125,7 +125,7 @@
       android:text="@string/blanc"
       android:visibility="visible"
       android:textColor="@color/vermell"
-      android:lines="2"
+      android:lines="6"
       app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@ class AudioFragment : Fragment() {
 
    private lateinit var procesAudio: ProcesAudio
    private var idioma = "ca"
-   private var estatIniciat: String? = null
+   private var estatIniciat: String = ""
 
    lateinit var escriptura: TextView
    lateinit var error: TextView
@@ -40,7 +40,7 @@ class AudioFragment : Fragment() {
       initProperties()
 
       btnInici.setOnClickListener {
-         if (estatIniciat == null) {
+         if (estatIniciat.isEmpty() ) {
             estatIniciat = "primer_inici"
             procesAudio.setUp(binding, view.context.applicationContext)
          }
@@ -48,10 +48,12 @@ class AudioFragment : Fragment() {
       }
 
       btnDesar.setOnClickListener {
+         estatIniciat = ""
          procesAudio.desaArxiu()
       }
 
       btnSortir.setOnClickListener {
+         estatIniciat = ""
          findNavController().navigate(R.id.action_AudioFragment_to_PortadaFragment)
       }
 

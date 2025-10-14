@@ -1,10 +1,13 @@
 package cat.tron.dictador.activitat
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.DocumentsContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +29,8 @@ class ProcesAudio : AppCompatActivity() {
    private var nouText = ""
 
    // seleccionar archivos
-   private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+   private val audioPickerLauncher = registerForActivityResult(
+      ActivityResultContracts.StartActivityForResult()) { result ->
       if (result.resultCode == RESULT_OK) {
          result.data?.data?.let { uri ->
             processaAudio(uri.path!!)
@@ -35,7 +39,8 @@ class ProcesAudio : AppCompatActivity() {
    }
 
    // permisos de almacenamiento
-   private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+   private val requestPermissionLauncher = registerForActivityResult(
+      ActivityResultContracts.RequestPermission()) { isGranted ->
       if (isGranted) {
          openFilePicker()
       } else {
@@ -49,8 +54,9 @@ class ProcesAudio : AppCompatActivity() {
          openFilePicker()
       } else {
          // Android 10 y anteriores - Solicitar permiso READ_EXTERNAL_STORAGE
-         if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            openLegacyFilePicker()
+         if (ctxAudio.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            openFilePicker()
+            //openLegacyFilePicker()
          } else {
             requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
          }
@@ -58,22 +64,48 @@ class ProcesAudio : AppCompatActivity() {
    }
 
    private fun openFilePicker() {
-      val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-         addCategory(Intent.CATEGORY_OPENABLE)
-         type = "audio/mpeg" // Para archivos MP3
-         putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("audio/mpeg", "audio/mp3"))
-
-         // Opcional: Mostrar solo archivos de audio
-         putExtra(Intent.EXTRA_LOCAL_ONLY, true)
-
-         // Para Android 5.0+ - mostrar el selector de documentos
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            putExtra(DocumentsContract.EXTRA_INITIAL_URI, DocumentsContract.buildRootsUri("com.android.externalstorage.documents"))
+      Handler(Looper.getMainLooper()).postDelayed({
+         try {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+               addCategory(Intent.CATEGORY_OPENABLE)
+               type = "audio/*"
+               putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("audio/wav", "audio/mp3"))
+               // Opcional: Mostrar solo archivos de audio
+               putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+               // Para Android 5.0+ mostrar el selector de documentos
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                  putExtra(
+                     DocumentsContract.EXTRA_INITIAL_URI,
+                     DocumentsContract.buildRootsUri("com.android.externalstorage.documents")
+                  )
+               }
+            }
+            // Verificar que hay una app que pueda manejar el intent
+            if (intent.resolveActivity(packageManager) != null) {
+               audioPickerLauncher.launch(intent)
+            }else {
+               frgAudio.error.text = "No hay una app que pueda manejar el intent"
+            }
+         }catch (e: Exception) {
+            frgAudio.error.text = "No se pudo mostrar el selector de documentos\n" + e.message
+            openFilePickerAlternative()
          }
-      }
-      filePickerLauncher.launch(intent)
+      }, 1000)
    }
 
+   private fun openFilePickerAlternative() {
+      val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+         type = "audio/*"
+         addCategory(Intent.CATEGORY_OPENABLE)
+      }
+      try {
+         val chooser = Intent.createChooser(intent, "Selecciona un archivo de audio")
+         audioPickerLauncher.launch(chooser)
+      } catch (e: Exception) {
+         e.printStackTrace()
+         frgAudio.error.text = "Error: ${e.message}"
+      }
+   }
    private fun openLegacyFilePicker() {
       val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
          type = "audio/*"
@@ -86,6 +118,16 @@ class ProcesAudio : AppCompatActivity() {
          )
       } catch (ex: android.content.ActivityNotFoundException) {
          frgAudio.error.text = "No hay aplicaciones para manejar archivos\nerror: " + ex.message
+      }
+   }
+
+   override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+      super.onActivityResult(requestCode, resultCode, resultData)
+      if (requestCode == AUDIO_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+         // The result data contains a URI for the document or directory that the user selected.
+         resultData?.data?.also { uri ->
+            processaAudio(uri.path!!)
+         }
       }
    }
 

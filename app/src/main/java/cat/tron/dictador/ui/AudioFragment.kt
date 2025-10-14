@@ -14,10 +14,6 @@ import cat.tron.dictador.R
 import cat.tron.dictador.activitat.ProcesAudio
 import cat.tron.dictador.activitat.Utilitats
 import cat.tron.dictador.databinding.FragmentAudioBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AudioFragment : Fragment() {
    private var _binding: FragmentAudioBinding? = null
@@ -25,13 +21,14 @@ class AudioFragment : Fragment() {
 
    private lateinit var procesAudio: ProcesAudio
    private var idioma = "ca"
+   private var estatIniciat: String? = null
 
    lateinit var escriptura: TextView
    lateinit var error: TextView
    lateinit var btnInici: ImageView
    lateinit var btnDesar: ImageView
    lateinit var btnSortir: ImageView
-   lateinit var radioGrupIdioma: RadioGroup
+   private lateinit var radioGrupIdioma: RadioGroup
 
    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
       _binding = FragmentAudioBinding.inflate(inflater, container, false)
@@ -43,13 +40,15 @@ class AudioFragment : Fragment() {
       initProperties()
 
       btnInici.setOnClickListener {
+         if (estatIniciat == null) {
+            estatIniciat = "primer_inici"
+            procesAudio.setUp(binding, view.context.applicationContext)
+         }
          procesAudio.iniciTranscripcio()
       }
 
       btnDesar.setOnClickListener {
-         CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.Main) { procesAudio.desaArxiu() }
-         }
+         procesAudio.desaArxiu()
       }
 
       btnSortir.setOnClickListener {
@@ -60,7 +59,6 @@ class AudioFragment : Fragment() {
          val radioBtn: RadioButton = view.findViewById(radioGrupIdioma.checkedRadioButtonId)
          idioma = radioBtn.text.toString().substring(0, 2).lowercase()
          Utilitats.canviaIdioma(idioma, requireContext())
-         //findNavController().navigate(R.id.action_PortadaFragment_to_AudioFragment)
       }
    }
 

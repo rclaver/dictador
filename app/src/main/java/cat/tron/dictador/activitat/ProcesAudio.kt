@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -90,16 +89,6 @@ class ProcesAudio : AppCompatActivity() {
       }
    }
 
-   private fun processSelectedAudio(uri: Uri) {
-      frgAudio.error.text = "Procesando audio..."
-      try {
-         processaAudio(uri.path!!)
-      } catch (e: Exception) {
-         frgAudio.error.text = "Error al procesar el audio"
-         e.printStackTrace()
-      }
-   }
-
    private fun processaAudio(filepath: String) {
       CoroutineScope(Dispatchers.Main).launch {
          nouText = GestorDeVeu.transcribeAudioFile(filepath)
@@ -107,14 +96,18 @@ class ProcesAudio : AppCompatActivity() {
       }
    }
 
-   suspend fun desaArxiu(): Boolean {
+   fun desaArxiu(): Boolean {
       val ret = nouText.isNotEmpty()
-      if (ret) {
-         if (Utilitats.desaArxiu(titol, nouText, ctxAudio, frgAudio.error)) {
-            frgAudio.error.text = cR.getString(R.string.text_desat)
+      CoroutineScope(Dispatchers.Main).launch {
+         withContext(Dispatchers.Main) {
+            if (ret) {
+               if (Utilitats.desaArxiu(titol, nouText, ctxAudio, frgAudio.error)) {
+                  frgAudio.error.text = cR.getString(R.string.text_desat)
+               }
+            } else {
+               mostraError(cR.getString(R.string.noutext_buit))
+            }
          }
-      } else {
-         mostraError(cR.getString(R.string.noutext_buit))
       }
       return ret
    }

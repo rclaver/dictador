@@ -20,7 +20,6 @@ import com.google.cloud.speech.v1.RecognizeResponse
 import com.google.cloud.speech.v1.SpeechClient
 import com.google.cloud.speech.v1.SpeechRecognitionAlternative
 import com.google.cloud.speech.v1.SpeechRecognitionResult
-import java.io.File
 
 object GestorDeVeu {
 

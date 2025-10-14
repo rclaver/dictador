@@ -19,28 +19,10 @@ object Utilitats {
    private const val STORAGE_PERMISSION_CODE = 100
    private const val ARXIU = "pensaments"
 
-   /* Obté la llista d'arxius */
-   fun listFilesInDownloads(): List<File> {
-      val filesList = mutableListOf<File>()
-      val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-
-      if (downloadsDir.exists() && downloadsDir.isDirectory) {
-         val files = downloadsDir.listFiles()
-
-         files?.forEach { file ->
-            if (file.isFile) {
-               filesList.add(file)
-               //print("Nombre: ${file.name}, Ruta: ${file.absolutePath}")
-            }
-         }
-      }
-      return filesList
-   }
-
    /*
    Escriu el text dictat a un arxiu de emmagatzematge
    */
-   suspend fun desaArxiu(fileName: String, dades: String, context: Context, errorView: TextView): Boolean {
+   fun desaArxiu(fileName: String, dades: String, context: Context, errorView: TextView): Boolean {
       val nomArxiu = fileName.ifEmpty { ARXIU }
       return try {
          val directori = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)

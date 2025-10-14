@@ -1,7 +1,13 @@
 package cat.tron.dictador.activitat
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.net.Uri
+import android.os.Build
+import android.provider.DocumentsContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import cat.tron.dictador.R
 import cat.tron.dictador.databinding.FragmentAudioBinding
@@ -10,9 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class ProcesAudio : AppCompatActivity() {
+   private val AUDIO_PICK_REQUEST_CODE = 1002
    private lateinit var ctxAudio: Context
    private lateinit var frgAudio: FragmentAudioBinding
    lateinit var cR: Resources
@@ -20,23 +26,85 @@ class ProcesAudio : AppCompatActivity() {
    private var titol = ""
    private var nouText = ""
 
-   fun iniciTranscripcio() {
-      val filepath = obreArxiu()
-      CoroutineScope(Dispatchers.Main).launch {
-         processaAudio(filepath)
-         desaArxiu()
+   // seleccionar archivos
+   private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+      if (result.resultCode == RESULT_OK) {
+         result.data?.data?.let { uri ->
+            processaAudio(uri.path!!)
+         }
       }
    }
 
-   private suspend fun processaAudio(filepath: String) {
-      nouText = GestorDeVeu.transcribeAudioFile(filepath)
-      mostraTranscripcio(nouText)
-      //withContext(Dispatchers.Main) { frgAudio.lectura.text = nouText }
+   // permisos de almacenamiento
+   private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+      if (isGranted) {
+         openFilePicker()
+      } else {
+         frgAudio.error.text = "Permiso denegado"
+      }
    }
 
-   private fun obreArxiu(): String {
-      var filepath = ""
-      return filepath
+   fun iniciTranscripcio() {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+         // Android 11+ - Usar Storage Access Framework
+         openFilePicker()
+      } else {
+         // Android 10 y anteriores - Solicitar permiso READ_EXTERNAL_STORAGE
+         if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            openLegacyFilePicker()
+         } else {
+            requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+         }
+      }
+   }
+
+   private fun openFilePicker() {
+      val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+         addCategory(Intent.CATEGORY_OPENABLE)
+         type = "audio/mpeg" // Para archivos MP3
+         putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("audio/mpeg", "audio/mp3"))
+
+         // Opcional: Mostrar solo archivos de audio
+         putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+
+         // Para Android 5.0+ - mostrar el selector de documentos
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            putExtra(DocumentsContract.EXTRA_INITIAL_URI, DocumentsContract.buildRootsUri("com.android.externalstorage.documents"))
+         }
+      }
+      filePickerLauncher.launch(intent)
+   }
+
+   private fun openLegacyFilePicker() {
+      val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+         type = "audio/*"
+         addCategory(Intent.CATEGORY_OPENABLE)
+      }
+      try {
+         startActivityForResult(
+            Intent.createChooser(intent, "Selecciona un archivo MP3"),
+            AUDIO_PICK_REQUEST_CODE
+         )
+      } catch (ex: android.content.ActivityNotFoundException) {
+         frgAudio.error.text = "No hay aplicaciones para manejar archivos\nerror: " + ex.message
+      }
+   }
+
+   private fun processSelectedAudio(uri: Uri) {
+      frgAudio.error.text = "Procesando audio..."
+      try {
+         processaAudio(uri.path!!)
+      } catch (e: Exception) {
+         frgAudio.error.text = "Error al procesar el audio"
+         e.printStackTrace()
+      }
+   }
+
+   private fun processaAudio(filepath: String) {
+      CoroutineScope(Dispatchers.Main).launch {
+         nouText = GestorDeVeu.transcribeAudioFile(filepath)
+         mostraTranscripcio(nouText)
+      }
    }
 
    suspend fun desaArxiu(): Boolean {

@@ -14,6 +14,7 @@
 
    <application
       android:allowBackup="true"
+      android:requestLegacyExternalStorage="true"
       android:icon="@mipmap/microfon"
       android:roundIcon="@mipmap/microfon"
       android:label="@string/app_name"

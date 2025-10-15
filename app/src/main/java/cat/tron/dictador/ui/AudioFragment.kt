@@ -21,7 +21,7 @@ class AudioFragment : Fragment() {
 
    private lateinit var procesAudio: ProcesAudio
    private var idioma = "ca"
-   private var estatIniciat: String = ""
+   private var estatIniciat = ""
 
    lateinit var escriptura: TextView
    lateinit var error: TextView

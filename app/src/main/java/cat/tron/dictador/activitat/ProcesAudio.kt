@@ -1,6 +1,5 @@
 package cat.tron.dictador.activitat
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -42,7 +41,7 @@ class ProcesAudio : AppCompatActivity() {
    private val requestPermissionLauncher = registerForActivityResult(
       ActivityResultContracts.RequestPermission()) { isGranted ->
       if (isGranted) {
-         openFilePicker()
+         obreSelectorArxius()
       } else {
          frgAudio.error.text = "Permiso denegado"
       }
@@ -51,15 +50,22 @@ class ProcesAudio : AppCompatActivity() {
    fun iniciTranscripcio() {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
          // Android 11+ - Usar Storage Access Framework
-         openFilePicker()
+         obreSelectorArxius()
       } else {
          // Android 10 y anteriores - Solicitar permiso READ_EXTERNAL_STORAGE
          if (ctxAudio.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            openFilePicker()
-            //openLegacyFilePicker()
+            obreSelectorArxius()
          } else {
             requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
          }
+      }
+   }
+
+   private fun obreSelectorArxius() {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+         openFilePicker()
+      }else {
+         openLegacyFilePicker()
       }
    }
 
@@ -82,6 +88,7 @@ class ProcesAudio : AppCompatActivity() {
             }
             // Verificar que hay una app que pueda manejar el intent
             if (intent.resolveActivity(packageManager) != null) {
+               frgAudio.error.text = "Lanzando audioPickerLauncher.launch(intent)"
                audioPickerLauncher.launch(intent)
             }else {
                frgAudio.error.text = "No hay una app que pueda manejar el intent"
@@ -90,7 +97,7 @@ class ProcesAudio : AppCompatActivity() {
             frgAudio.error.text = "No se pudo mostrar el selector de documentos\n" + e.message
             openFilePickerAlternative()
          }
-      }, 1000)
+      }, 10000)
    }
 
    private fun openFilePickerAlternative() {
@@ -102,20 +109,24 @@ class ProcesAudio : AppCompatActivity() {
          val chooser = Intent.createChooser(intent, "Selecciona un archivo de audio")
          audioPickerLauncher.launch(chooser)
       } catch (e: Exception) {
-         e.printStackTrace()
-         frgAudio.error.text = "Error: ${e.message}"
+         frgAudio.escriptura.text = frgAudio.error.text.toString() + "\nError: ${e.message}"
       }
    }
+
    private fun openLegacyFilePicker() {
-      val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-         type = "audio/*"
-         addCategory(Intent.CATEGORY_OPENABLE)
-      }
       try {
-         startActivityForResult(
-            Intent.createChooser(intent, "Selecciona un archivo MP3"),
-            AUDIO_PICK_REQUEST_CODE
-         )
+         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "audio/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
+         }
+         //startActivityForResult(Intent.createChooser(intent, "Selecciona un archivo MP3"), AUDIO_PICK_REQUEST_CODE)
+         if (intent.resolveActivity(packageManager) != null) {
+            applicationContext.startActivity(
+               Intent.createChooser(intent, "Selecciona un arxiu d'audio")
+            )
+         }else {
+            frgAudio.error.text = "No hay una app para manejar arcivos"
+         }
       } catch (ex: android.content.ActivityNotFoundException) {
          frgAudio.error.text = "No hay aplicaciones para manejar archivos\nerror: " + ex.message
       }
@@ -123,7 +134,7 @@ class ProcesAudio : AppCompatActivity() {
 
    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
       super.onActivityResult(requestCode, resultCode, resultData)
-      if (requestCode == AUDIO_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+      if (requestCode == AUDIO_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
          // The result data contains a URI for the document or directory that the user selected.
          resultData?.data?.also { uri ->
             processaAudio(uri.path!!)

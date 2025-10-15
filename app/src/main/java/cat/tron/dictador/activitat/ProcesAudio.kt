@@ -62,7 +62,7 @@ class ProcesAudio : AppCompatActivity() {
    }
 
    private fun obreSelectorArxius() {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) or true) {
          openFilePicker()
       }else {
          openLegacyFilePicker()
@@ -87,14 +87,15 @@ class ProcesAudio : AppCompatActivity() {
                }
             }
             // Verificar que hay una app que pueda manejar el intent
+            frgAudio.error.text = "intent.resolveActivity(packageManager)"
             if (intent.resolveActivity(packageManager) != null) {
-               frgAudio.error.text = "Lanzando audioPickerLauncher.launch(intent)"
+               frgAudio.error.text = frgAudio.error.text.toString() + "\nLanzando audioPickerLauncher.launch(intent)"
                audioPickerLauncher.launch(intent)
             }else {
                frgAudio.error.text = "No hay una app que pueda manejar el intent"
             }
          }catch (e: Exception) {
-            frgAudio.error.text = "No se pudo mostrar el selector de documentos\n" + e.message
+            frgAudio.error.text = frgAudio.error.text.toString() + "\nNo se pudo mostrar el selector de documentos\n" + e.message
             openFilePickerAlternative()
          }
       }, 10000)
@@ -106,10 +107,12 @@ class ProcesAudio : AppCompatActivity() {
          addCategory(Intent.CATEGORY_OPENABLE)
       }
       try {
+         frgAudio.error.text = "Lanzando Intent.createChooser(intent)"
          val chooser = Intent.createChooser(intent, "Selecciona un archivo de audio")
+         frgAudio.error.text = frgAudio.error.text.toString() + "\nLanzando audioPickerLauncher.launch(intent)"
          audioPickerLauncher.launch(chooser)
       } catch (e: Exception) {
-         frgAudio.escriptura.text = frgAudio.error.text.toString() + "\nError: ${e.message}"
+         frgAudio.escriptura.text = frgAudio.error.text.toString() + "\nError en openFilePickerAlternative:\n${e.message}"
       }
    }
 
@@ -128,7 +131,8 @@ class ProcesAudio : AppCompatActivity() {
             frgAudio.error.text = "No hay una app para manejar arcivos"
          }
       } catch (ex: android.content.ActivityNotFoundException) {
-         frgAudio.error.text = "No hay aplicaciones para manejar archivos\nerror: " + ex.message
+         frgAudio.escriptura.text = frgAudio.error.text.toString() + "\nNo hay aplicaciones para manejar archivos\nError: ${ex.message}"
+         openFilePickerAlternative()
       }
    }
 

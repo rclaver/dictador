@@ -128,7 +128,7 @@ class ProcesAudio : AppCompatActivity() {
             frgAudio.error.text = "No hay una app para manejar arcivos"
          }
       } catch (ex: android.content.ActivityNotFoundException) {
-         frgAudio.error.text = "No hay aplicaciones para manejar archivos\nerror: " + ex.message
+         frgAudio.escriptura.text = frgAudio.error.text.toString() + "\nNo hay aplicaciones para manejar archivos\nerror: " + ex.message
       }
    }
 
